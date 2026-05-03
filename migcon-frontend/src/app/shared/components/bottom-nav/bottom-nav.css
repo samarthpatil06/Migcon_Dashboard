@@ -1,0 +1,29 @@
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #8a9a74;
+  padding: 10px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.bottom-nav a {
+  text-decoration: none;
+  color: #1f2d3d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+}
+
+.bottom-nav i {
+  font-size: 18px;
+  margin-bottom: 3px;
+}
+
+.bottom-nav a.active {
+  color: #ffffff;
+  font-weight: bold;
+}

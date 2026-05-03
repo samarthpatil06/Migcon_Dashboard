@@ -1,0 +1,108 @@
+<div class="group-card">
+
+  <div class="group-header" (click)="toggle()">
+    <h3>{{ groupName }}</h3>
+    <div class="icons">
+      <div class="icon-box">
+        🖥
+        <span class="count count-online">{{ getOnlineCount() }}</span>
+      </div>
+      <div class="icon-box">
+        🔔
+        <span class="count count-alarm">{{ getAlarmCount() }}</span>
+      </div>
+      <span class="arrow">{{ isOpen ? '▲' : '▼' }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="isOpen">
+
+    <div *ngIf="devices.length === 0" class="no-devices">
+      No devices in this group yet.
+    </div>
+
+    <div class="device-card"
+         *ngFor="let device of devices"
+         [class.device-alarm]="device.alarm"
+         [class.device-new-alarm]="device.newAlarm">
+
+      <div class="device-header">
+        <div>
+          <h4>{{ device.name }}</h4>
+          <p class="mac">{{ device.mac }}</p>
+        </div>
+
+        <div class="device-icons">
+
+          <!-- Alarm bell: red dot badge when alarm active, no animation -->
+          <span class="icon bell-wrapper" [title]="alarmLabel(device)">
+            🔔
+            <span class="bell-dot" *ngIf="device.alarm"></span>
+          </span>
+
+          <!-- Logging -->
+          <span class="icon"
+                [ngClass]="{
+                  'icon-logging-on':      device.loggingStatus === 'logging',
+                  'icon-logging-pending': device.loggingStatus === 'pending',
+                  'icon-logging-off':     device.loggingStatus === 'stopped' || !device.loggingStatus
+                }"
+                [title]="'Logging: ' + (device.loggingStatus ?? '--')">❗</span>
+
+          <!-- RSSI -->
+          <span class="icon icon-signal" [title]="rssiLabel(device)">
+            📶
+            <small *ngIf="device.rssi != null" class="rssi-label">{{ device.rssi }}</small>
+          </span>
+
+          <!-- Power -->
+          <span class="icon"
+                [ngClass]="{ 'icon-power-on': device.power, 'icon-power-battery': !device.power }"
+                [title]="device.power ? 'External Power' : 'Battery'">
+            {{ device.power ? '🔌' : '🔋' }}
+          </span>
+
+          <!-- 3-dot menu -->
+          <div class="menu-container">
+            <span class="menu-trigger" (click)="toggleMenu(device, $event)">⋮</span>
+            <div class="menu" *ngIf="device.menuOpen">
+              <div class="menu-item">⚙ Device Setting</div>
+              <div class="menu-item">🔔 View Alarm</div>
+              <div class="menu-item">📈 View Graph</div>
+              <div class="menu-item">⬇ Download Report</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Channel grid -->
+      <div class="channels">
+        <div class="channel" *ngFor="let ch of device.channels">
+          <span class="label">{{ ch.name }}</span>
+          <span class="value">{{ ch.value }}</span>
+        </div>
+      </div>
+
+     <!-- Footer -->
+      <div class="details-bar">
+        <span class="more-details">More Details</span>
+        <span class="footer-right">
+          <span class="elapsed"
+                [ngClass]="{
+                  'elapsed-fresh':   (device.elapsedSeconds ?? 0) < 30,
+                  'elapsed-stale':   (device.elapsedSeconds ?? 0) >= 30 && device.status !== 'Offline',
+                  'elapsed-offline': device.status === 'Offline'
+                }">
+            {{ elapsedLabel(device) }}
+          </span>
+          <span class="status-badge"
+                [ngClass]="{
+                  'online':  device.status === 'Online',
+                  'offline': device.status === 'Offline',
+                  'alarm':   device.status === 'Alarm'
+                }">
+            {{ device.status }}
+          </span>
+        </span>
+      </div>

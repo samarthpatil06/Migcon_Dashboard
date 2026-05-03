@@ -1,0 +1,26 @@
+<div class="groups-container">
+
+  <h2 class="page-title">Group Management</h2>
+
+  <div class="top-bar">
+    <button routerLink="/groups/add" class="add-btn">
+      + Create Group
+    </button>
+  </div>
+
+  <div class="groups-grid">
+
+    <div class="group-card" *ngFor="let group of groups">
+      <div class="card-header">
+        <h3>{{ group.name }}</h3>
+      </div>
+
+      <div class="card-body">
+        <p class="location">📍 {{ group.location }}</p>
+        <p class="description">{{ group.description }}</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>

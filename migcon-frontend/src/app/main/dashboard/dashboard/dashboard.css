@@ -1,0 +1,89 @@
+.dashboard-container {
+  padding: 20px;
+}
+
+.title-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.connected    { color: green; font-weight: 600; }
+.disconnected { color: red;   font-weight: 600; }
+
+.waiting {
+  text-align: center;
+  color: #888;
+  margin-top: 40px;
+  font-size: 16px;
+}
+
+/* ── Alarm toasts ─────────────────────────────────────────────────────────── */
+
+.alarm-toasts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.alarm-toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff3cd;
+  border: 1.5px solid #e67e22;
+  border-left: 5px solid #e74c3c;
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.15);
+  animation: slideIn 0.25s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.toast-bell {
+  font-size: 22px;
+  animation: ring 0.6s ease-in-out 2;
+}
+
+@keyframes ring {
+  0%, 100% { transform: rotate(0deg); }
+  20%       { transform: rotate(-18deg); }
+  60%       { transform: rotate(18deg); }
+}
+
+.toast-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+}
+
+.toast-body strong {
+  color: #c0392b;
+  font-size: 14px;
+}
+
+.toast-body small {
+  color: #888;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #999;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.toast-close:hover {
+  background: #f8d7da;
+  color: #c0392b;
+}

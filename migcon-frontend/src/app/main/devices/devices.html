@@ -1,0 +1,55 @@
+<div class="devices-container">
+
+  <div class="header-row">
+    <h2 class="page-title">Device Management</h2>
+
+    <button class="add-btn" routerLink="/devices/add">
+      + Add Device
+    </button>
+  </div>
+
+  <!-- Group Cards -->
+  <div class="group-card"
+       *ngFor="let group of groups">
+
+    <!-- Group Header -->
+    <div class="group-header"
+         (click)="toggleGroup(group)">
+
+      <div class="group-left">
+        <h3>{{ group }}</h3>
+        <span class="device-count">
+          {{ getDevicesByGroup(group).length }} Devices
+        </span>
+      </div>
+
+      <div class="arrow">
+        {{ openGroups.includes(group) ? '▲' : '▼' }}
+      </div>
+
+    </div>
+
+    <!-- Device List -->
+    <div class="group-body"
+         *ngIf="openGroups.includes(group)">
+
+      <div class="device-card"
+           *ngFor="let device of getDevicesByGroup(group)">
+
+        <div class="device-main">
+          <h4>{{ device.name }}</h4>
+          <p class="device-mac">{{ device.mac }}</p>
+        </div>
+
+        <div class="device-info">
+          <span>ID: {{ device.id }}</span>
+          <span>{{ device.location }}</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

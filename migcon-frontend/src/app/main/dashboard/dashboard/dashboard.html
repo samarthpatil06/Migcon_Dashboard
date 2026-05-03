@@ -1,0 +1,37 @@
+<div class="dashboard-container">
+
+  <div class="title-section">
+    <h2>Device Status Monitoring</h2>
+    <p>Network:
+      <span [class]="networkConnected ? 'connected' : 'disconnected'">
+        {{ networkConnected ? 'Connected' : 'Disconnected' }}
+      </span>
+    </p>
+  </div>
+
+  <!-- Alarm toasts — shown when alarm bit flips 0→1 -->
+  <div class="alarm-toasts" *ngIf="alarmToasts.length > 0">
+    <div class="alarm-toast" *ngFor="let toast of alarmToasts; trackBy: trackByToast">
+      <span class="toast-bell">🔔</span>
+      <div class="toast-body">
+        <strong>ALARM — {{ toast.deviceName }}</strong>
+        <span>{{ toast.mac }}</span>
+        <small>{{ toast.receivedAt | date:'HH:mm:ss' }}</small>
+      </div>
+      <button class="toast-close" (click)="dismissToast(toast.id)">✕</button>
+    </div>
+  </div>
+
+  <!-- No data yet -->
+  <div *ngIf="groups.length === 0" class="waiting">
+    <p>⏳ Waiting for device data…</p>
+  </div>
+
+  <!-- Device groups -->
+  <app-dashboard-group
+    *ngFor="let group of groups; trackBy: trackByGroup"
+    [groupName]="group.name"
+    [devices]="group.devices">
+  </app-dashboard-group>
+
+</div>

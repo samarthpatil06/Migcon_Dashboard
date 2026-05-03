@@ -1,0 +1,53 @@
+<div class="profile-wrapper">
+
+  <div class="top-right-btn">
+    <button class="change-pass-btn" (click)="goToChangePassword()">
+      Change Password
+    </button>
+  </div>
+
+  <div class="profile-card">
+
+    <!-- Admin Section -->
+    <div class="admin-section">
+      <div class="avatar">M</div>
+
+      <div class="admin-info">
+        <h2>Migcon Connect Admin</h2>
+        <p class="email">admin@migcon.com</p>
+        <span class="role">Admin</span>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Manage Users Header -->
+    <div class="manage-header">
+      <h3>Manage Users</h3>
+      <button class="create-btn" (click)="goToCreateUser()">
+        + Create User
+      </button>
+    </div>
+
+    <!-- User List -->
+    <div class="user-card" *ngFor="let user of users">
+
+      <div class="user-avatar">
+        {{ user.fullName.charAt(0) }}
+      </div>
+
+      <div class="user-details">
+        <h4>{{ user.fullName }}</h4>
+        <p>{{ user.email }}</p>
+        <span class="user-role">{{ user.role }}</span>
+      </div>
+
+      <div class="user-menu">
+        ⋮
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

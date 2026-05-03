@@ -1,0 +1,153 @@
+/* ===== Full Page Layout ===== */
+.login-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #dfe7f3 45%, #ffffff 45%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* ===== Logo ===== */
+.logo-wrapper {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.logo-wrapper img {
+  height: 60px;
+  max-width: 70%;
+  object-fit: contain;
+}
+
+/* ===== Card ===== */
+.login-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  padding: 40px 35px;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+/* ===== Heading ===== */
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #1f2c4d;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 30px;
+}
+
+/* ===== Form Groups ===== */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #374151;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #f8fafc;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* ===== Forgot ===== */
+.forgot {
+  text-align: right;
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+
+.forgot a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.forgot a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Button ===== */
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.25);
+}
+
+/* ===== Bottom Text ===== */
+.bottom-text {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.bottom-text a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.bottom-text a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Mobile Fix ===== */
+@media (max-width: 480px) {
+
+  .login-container {
+    padding: 15px;
+  }
+
+  .login-card {
+    padding: 28px 22px;
+    border-radius: 18px;
+  }
+
+  .logo-wrapper img {
+    height: 45px;
+  }
+
+  .login-card h2 {
+    font-size: 20px;
+  }
+
+}

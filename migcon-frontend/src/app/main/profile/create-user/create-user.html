@@ -1,0 +1,26 @@
+<div class="form-wrapper">
+
+  <div class="form-card">
+
+    <div class="form-header">
+      ← Create New User
+    </div>
+
+    <input type="text" [(ngModel)]="fullName" placeholder="Full Name*" />
+    <input type="email" [(ngModel)]="email" placeholder="Email Address*" />
+    <input type="password" [(ngModel)]="password" placeholder="Password*" />
+    <input type="text" [(ngModel)]="mobile" placeholder="Mobile Number (Optional)" />
+
+    <select [(ngModel)]="role">
+      <option>User</option>
+      <option>Supervisor</option>
+    </select>
+
+    <div class="btn-row">
+      <button class="cancel-btn" (click)="cancel()">Cancel</button>
+      <button class="save-btn" (click)="createUser()">Create User</button>
+    </div>
+
+  </div>
+
+</div>

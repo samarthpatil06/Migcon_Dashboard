@@ -1,0 +1,47 @@
+.form-wrapper {
+  padding: 40px 20px 110px;
+}
+
+.form-card {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+.form-header {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+input, select {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.btn-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.cancel-btn {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background: white;
+}
+
+.save-btn {
+  padding: 10px 22px;
+  border-radius: 20px;
+  border: none;
+  background: #1565c0;
+  color: white;
+}
