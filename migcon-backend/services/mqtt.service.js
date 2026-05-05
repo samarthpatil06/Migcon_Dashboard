@@ -4,23 +4,24 @@
  * Subscribes to DLNK/+ (live telemetry), parses each message,
  * enriches it from the device DB, and forwards to WebSocket.
  *
- * Topic scheme (from Migcon Excel spec):
- *   DLNK/<mac>   – live telemetry  (subscribed with wildcard DLNK/+)
- *   APRM/<mac>   – alarm messages  (add to TOPICS array if needed)
- *   GPRM/<mac>   – historical log  (add to TOPICS array if needed)
+ * EXTENDED: parsed data is now also persisted to MongoDB (SensorData).
+ *           If alarm === true an Alert document is created.
+ *           Existing WebSocket behavior is unchanged.
  */
 const mqtt        = require('mqtt');
 const parser      = require('./parser.service');
 const deviceModel = require('../models/device.model');
 const ws          = require('./websocket.service');
+const SensorData  = require('../models/sensorData.model');
+const Alert       = require('../models/alert.model');
 
-const BROKER_URL        = process.env.MQTT_BROKER_URL ?? 'mqtt://localhost:1883';
-const CLIENT_ID         = `migcon-backend-${Date.now()}`;
-const TOPICS            = ['DLNK/+'];
-const OFFLINE_TIMEOUT   = parseInt(process.env.MQTT_OFFLINE_TIMEOUT_MS ?? '60000', 10);
+const BROKER_URL      = process.env.MQTT_BROKER_URL ?? 'mqtt://localhost:1883';
+const CLIENT_ID       = `migcon-backend-${Date.now()}`;
+const TOPICS          = ['DLNK/+'];
+const OFFLINE_TIMEOUT = parseInt(process.env.MQTT_OFFLINE_TIMEOUT_MS ?? '60000', 10);
 
 let client = null;
-const lastSeen = new Map();   // mac → Date.now()
+const lastSeen = new Map(); // mac → Date.now()
 
 function buildPayload(parsed, db) {
   const channelCount = db?.channels ?? 4;
@@ -47,6 +48,41 @@ function buildPayload(parsed, db) {
   };
 }
 
+// ── Persist to MongoDB (non-blocking – errors are logged, not thrown) ─────────
+async function persistToDB(data) {
+  try {
+    await SensorData.create({
+      deviceId:      data.mac,
+      modelCode:     data.modelCode,
+      modelName:     data.modelName,
+      rssi:          data.rssi,
+      ipType:        data.ipType,
+      power:         data.power,
+      batteryVolts:  data.batteryVolts,
+      loggingStatus: data.loggingStatus,
+      logging:       data.logging,
+      alarm:         data.alarm,
+      alarmCode:     data.alarmCode,
+      logCount:      data.logCount,
+      channels:      data.channels,
+      timestamp:     data.timestamp,
+      packetNumber:  data.packetNumber,
+      header:        data.header,
+    });
+
+    if (data.alarm) {
+      await Alert.create({
+        deviceId: data.mac,
+        type:     'alarm',
+        message:  `Alarm code ${data.alarmCode ?? 'unknown'} on device ${data.mac}`,
+      });
+      console.log(`[MQTT] ⚠  Alert saved for ${data.mac} (code: ${data.alarmCode})`);
+    }
+  } catch (err) {
+    console.error('[MQTT] DB persist error:', err.message);
+  }
+}
+
 function handleMessage(topic, buf) {
   const raw = buf.toString('utf8').trim();
   console.log(`[MQTT] ← ${topic} | ${raw}`);
@@ -60,6 +96,10 @@ function handleMessage(topic, buf) {
   const { data } = result;
   lastSeen.set(data.mac, Date.now());
 
+  // ── Persist to DB (async, non-blocking) ──────────────────────────────────
+  persistToDB(data);
+
+  // ── Existing WebSocket broadcast (unchanged) ──────────────────────────────
   const db      = deviceModel.getByMac(data.mac);
   if (!db) console.warn(`[MQTT] Unknown MAC ${data.mac} – using defaults`);
 

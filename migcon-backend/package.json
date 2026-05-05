@@ -1,6 +1,6 @@
 {
   "name": "migcon-iot-backend",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Node.js backend for Migcon IoT Device Status Monitoring",
   "main": "server.js",
   "scripts": {
@@ -9,9 +9,12 @@
     "test:parser": "node tests/parser.test.js"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.0",
     "mqtt": "^5.3.6",
     "socket.io": "^4.7.5"
   },
